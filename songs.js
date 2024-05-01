@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Load data from Spotify.json
-    d3.json("Spotify.json").then(function(data) {
+    d3.json("/data/Spotify.json").then(function(data) {
         // Populate dropdown with song names
         var dropdown = d3.select("#selDataset");
         data.forEach((song) => {
