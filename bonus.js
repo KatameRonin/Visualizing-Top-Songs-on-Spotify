@@ -6,8 +6,8 @@ var filterOption = d3.select('#selDataset');
 var metaDataIndex;
 
 // Populate dropdown options with the participant id names
-d3.json("data/samples.json").then((importedData) => {
-  var newNames = importedData.names
+d3.json('data/Spotify.json').then((importedData) => {
+  var newNames = importedData.track_name
     // console.log(newNames)
     newNames.forEach(option => filterOption.append('option').attr('value', option).text(option));
 }); 
@@ -15,7 +15,7 @@ d3.json("data/samples.json").then((importedData) => {
 function optionChanged() {
   // Setting index number for creatingMetaData() and createPlot()
   function setIndexNum(value) {
-    d3.json("data/samples.json").then((importedData) => {
+    d3.json('data/Spotify.json').then((importedData) => {
       for(var i = 0; i < importedData.metadata.length; i++) {
           if((importedData.metadata)[i]['id'] === value) {
               // console.log("i for setIndexNum() = " + i)
@@ -46,14 +46,14 @@ function creatingMetaData (indexNumber) {
   populateDemo.html("");
 
   // Add each key and value pair for demographic information and add new paragraph tags
-  d3.json("data/samples.json").then((importedData) => {
+  d3.json('data/Spotify.json').then((importedData) => {
     Object.entries(importedData.metadata[indexNumber]).forEach(([key,value]) => populateDemo.append('p').text(key.toUpperCase() + ": " + value));
       // console.log("creatingMetaData() indexNumber = " + indexNumber)
   });
 }
 
 function createPlot (indexNumber) {
-    d3.json("data/samples.json").then((importedData) => {
+    d3.json('data/Spotify.json').then((importedData) => {
       // Use the map method with the arrow function to return all out_ids and their top 10 values
       var newIds = importedData.samples.map(data=>(data.otu_ids).slice(0,10))
       var newIdsBubble = importedData.samples.map(data=>(data.otu_ids))
