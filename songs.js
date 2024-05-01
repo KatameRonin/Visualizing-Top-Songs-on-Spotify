@@ -63,7 +63,7 @@ function drawBarPlot(data) {
 }
 
 // Load data and use it
-d3.json("Spotify.json").then(function(data) {
+d3.json("data/Spotify.json").then(function(data) {
     // Call the function to draw the bar plot
     drawBarPlot(data);
 });
