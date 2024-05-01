@@ -1,9 +1,9 @@
 // Function to draw bar plot
 function drawBarPlot(data) {
-    // Dimensions and margins of the plot
-    const margin = {top: 30, right: 30, bottom: 70, left: 60},
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+    // Increase dimensions and margins of the plot for better visibility
+    const margin = {top: 30, right: 30, bottom: 100, left: 100},
+        width = 960 - margin.left - margin.right,  // Increased width
+        height = 500 - margin.top - margin.bottom;  // Increased height
 
     // Append the SVG object to the body of the page
     const svg = d3.select("#visualization")
