@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="https://image.flaticon.com/icons/svg/2904/2904128.svg">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Songs Dashboard</title>
+</head>
+<body class="bg-light">
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">Songs</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="genres.html">Genres</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="artists.html">Artists</a>
+        </li>
+    </ul>
+
+    <!-- Jumbotron header -->
+    <section id="header" class="jumbotron text-center bg-info">
+        <h1 class="display-3 font-weight-bold">Songs Dashboard</h1>
+        <p class="lead text-white">Explore diverse songs and their details here.</p>
+        <p>Choose a song from the left side and explore various details including artist, genre, and play statistics.</p>
+    </section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Song ID names -->
+                <div class="card bg-light mb-3">
+                    <div class="card-header bg-dark text-white">Song List</div>
+                    <div class="card-body card border-dark">
+                        <select class="form-control" id="selDataset" onchange="optionChanged(this.value)">
+                            <option selected="true" disabled="disabled">Select a Song</option>
+                            <!-- Songs will be listed here -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+                <div class="col-md-9">
+                <div class="card bg-light mb-3">
+                    <div class="card-body bg-white">
+                        <div class="d-flex justify-content-around" id="details"></div>
+                        <!-- Song details will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="songs.js"></script>
+</body>
+</html>
