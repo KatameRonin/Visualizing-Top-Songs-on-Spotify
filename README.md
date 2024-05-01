@@ -3,7 +3,7 @@
 **Webpage Level 1:** https://diannejardinez.github.io/Data-Visualization-Dashboard/lvl1
 
 ---
-# Visualizing the Spotipfy Soundscape
+# Visualizing the Spotify Soundscape
 
 In this assignment, you will build an interactive dashboard to explore the [Spotify Top 50 Tracks 2023](https://www.kaggle.com/datasets/yukawithdata/spotify-top-tracks-2023/), which lists the top 50 songs based on their popularity on Spotify.
 
