@@ -1,42 +1,69 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Load data from Spotify.json
-    d3.json("data/Spotify.json").then(function(data) {
-        // Populate dropdown with song names
-        var dropdown = d3.select("#selDataset");
-        data.forEach((song) => {
-            dropdown.append("option")
-                    .text(song.track_name)
-                    .attr("value", song.popularity);
+// Function to draw bar plot
+function drawBarPlot(data) {
+    // Dimensions and margins of the plot
+    const margin = {top: 30, right: 30, bottom: 70, left: 60},
+        width = 460 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+
+    // Append the SVG object to the body of the page
+    const svg = d3.select("#visualization")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    // X axis
+    const x = d3.scaleBand()
+      .range([0, width])
+      .domain(data.map(d => d.track_name))
+      .padding(0.2);
+    svg.append("g")
+      .attr("transform", `translate(0, ${height})`)
+      .call(d3.axisBottom(x))
+      .selectAll("text")
+        .attr("transform", "translate(-10,0)rotate(-45)")
+        .style("text-anchor", "end");
+
+    // Add Y axis
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => +d.popularity)])
+      .range([height, 0]);
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // Tooltip div
+    const tooltip = d3.select("#visualization").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0)
+      .style("background", 'lightgray')
+      .style("padding", '5px')
+      .style("position", 'absolute')
+      .style("border-radius", '5px');
+
+    // Bars
+    svg.selectAll("mybar")
+      .data(data)
+      .enter()
+      .append("rect")
+        .attr("x", d => x(d.track_name))
+        .attr("y", d => y(d.popularity))
+        .attr("width", x.bandwidth())
+        .attr("height", d => height - y(d.popularity))
+        .attr("fill", "#69b3a2")
+        .on("mouseover", function(event, d) {
+            tooltip.html(`Track: ${d.track_name}<br>Artist: ${d.artist_name}<br>Release Date: ${d.album_release_date}<br>Popularity: ${d.popularity}`)
+                   .style("opacity", 1)
+                   .style("left", (event.pageX + 10) + "px")
+                   .style("top", (event.pageY - 10) + "px");
+        })
+        .on("mouseout", function(d) {
+            tooltip.style("opacity", 0);
         });
+}
 
-        // Create a bar plot
-        var trace = {
-            x: data.map(song => song.name),
-            y: data.map(song => song.popularity),
-            text: data.map(song => `Artist: ${song.artist} <br> Popularity: ${song.popularity}`),
-            type: 'bar',
-            marker: {
-                color: '#17BECF'
-            },
-            hoverinfo: 'text+y'
-        };
-
-        var layout = {
-            title: 'Popularity of Top 50 Songs on Spotify',
-            xaxis: {
-                title: 'Songs',
-                tickangle: -45
-            },
-            yaxis: {
-                title: 'Popularity'
-            },
-            margin: {
-                b: 150 // Ensure x-axis labels are visible
-            }
-        };
-
-        Plotly.newPlot('bar', [trace], layout);
-    }).catch(function(error) {
-        console.error('Error loading the data:', error);
-    });
+// Load data and use it
+d3.json("Spotify.json").then(function(data) {
+    // Call the function to draw the bar plot
+    drawBarPlot(data);
 });
