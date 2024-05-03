@@ -54,7 +54,7 @@ function drawBarPlot(data) {
         .attr("height", d => height - y(d.popularity))
         .attr("fill", "#69b3a2")
         .on("mouseover", function(event, d) {
-            console.log(d);  // Log the data for the hovered element
+            console.log(data);  // Log the data for the hovered element
             tooltip.html(`Track: ${data.track_name}<br>Artist: ${data.artist_name}<br>Release Date: ${data.album_release_date}<br>Popularity: ${data.popularity}`)
            .style("opacity", 1)
            .style("left", (event.pageX + 10) + "px")
