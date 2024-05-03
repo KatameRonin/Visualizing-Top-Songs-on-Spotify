@@ -42,7 +42,7 @@ function drawPlot(data, selectedArtist) {
             mode: 'markers',
             marker: {
                 color: d.artist_name === selectedArtist ? 'red' : 'blue',
-                size: d.artist_name === selectedArtist ? 16 : 6
+                size: d.artist_name === selectedArtist ? 12 : 6
             }
         });
     });
@@ -58,8 +58,14 @@ function drawPlot(data, selectedArtist) {
         },
         yaxis: {title: 'Popularity'},
         showlegend: false,
-        height: 600, // Increased height for better visualization
-        width: 1000
+        height: 800, // Same height for good visualization
+        width: 1400, // Increased width for a wider view
+        margin: { // Adjust margins to help center the plot
+            l: 100,  // Left margin
+            r: 100,  // Right margin
+            b: 100,  // Bottom margin
+            t: 100   // Top margin (includes space for title)
+        }
     };
 
     Plotly.newPlot('plot', traces, layout);
