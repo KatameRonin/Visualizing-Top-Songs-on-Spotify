@@ -39,16 +39,51 @@ function drawBarPlotWithPlotly(data) {
 // Function to draw a radial plot using Plotly
 function drawRadialPlot(data) {
     // Prepare the data for the radial plot
+
+     // Initialize sums
+    var sums = {
+        danceability: 0,
+        valence: 0,
+        energy: 0,
+        loudness: 0,
+        acousticness: 0,
+        instrumentalness: 0,
+        liveness: 0,
+        speechiness: 0
+    };
+
+    // Sum up all attributes
+    data.forEach(track => {
+        sums.danceability += track.danceability;
+        sums.valence += track.valence;
+        sums.energy += track.energy;
+        sums.acousticness += track.acousticness;
+        sums.instrumentalness += track.instrumentalness;
+        sums.liveness += track.liveness;
+        sums.speechiness += track.speechiness;
+    });
+
+    // Calculate averages
+    var averages = {
+        danceability: sums.danceability / data.length,
+        valence: sums.valence / data.length,
+        energy: sums.energy / data.length,
+        acousticness: sums.acousticness / data.length,
+        instrumentalness: sums.instrumentalness / data.length,
+        liveness: sums.liveness / data.length,
+        speechiness: sums.speechiness / data.length
+    };
+
     var trace = {
         type: 'scatterpolar',
         r: [
-            data.map(d => d.danceability),
-            data.map(d => d.valence),
-            data.map(d => d.energy),
-            data.map(d => d.acousticness),
-            data.map(d => d.instrumentalness),
-            data.map(d => d.liveness),
-            data.map(d => d.speechiness)
+            averages.danceability,
+            averages.valence,
+            averages.energy,
+            averages.acousticness,
+            averages.instrumentalness,
+            averages.liveness,
+            averages.speechiness
         ],
         theta: [
             'Danceability',
