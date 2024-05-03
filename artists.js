@@ -3,6 +3,14 @@ function initializePlot(data) {
     const uniqueArtists = [...new Set(data.map(item => item.artist_name))];
 
     const select = document.getElementById('artistSelector');
+    // Adding default dropdown option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = "";
+    defaultOption.innerHTML = "Choose an Artist";
+    defaultOption.selected = true;
+    select.appendChild(defaultOption);
+
+    // Add artist options to dropdown
     uniqueArtists.forEach(artist => {
         const option = document.createElement('option');
         option.value = artist;
@@ -14,7 +22,11 @@ function initializePlot(data) {
 
     // Event listener for dropdown changes
     select.addEventListener('change', function() {
-        drawPlot(data, this.value);
+        if (this.value === "") {
+            drawPlot(data, null); // No artist selected, draw without highlights
+        } else {
+            drawPlot(data, this.value); // Draw plot with the selected artist highlighted
+        }
     });
 }
 
@@ -36,7 +48,6 @@ function drawPlot(data, selectedArtist) {
     });
 
     var layout = {
-        title: 'Popularity of Tracks by Artist',
         xaxis: {title: 'Track Name'},
         yaxis: {title: 'Popularity'},
         showlegend: false
