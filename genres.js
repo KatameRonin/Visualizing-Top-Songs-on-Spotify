@@ -61,31 +61,35 @@ function drawSongsPerGenreChart(genreInfo) {
     Plotly.newPlot('songsPerGenre', data, layout);
 }
 
-// Draw Bubble Chart for total popularity by genre
+// Draw Bubble Chart for normalized total popularity by genre
 function drawPopularityByGenreChart(genreInfo) {
+    // Compute max popularity to use for normalization
+    const maxPopularity = Math.max(...Object.values(genreInfo).map(info => info.totalPopularity));
+
     const data = [{
         x: Object.keys(genreInfo),
-        y: Object.values(genreInfo).map(info => info.totalPopularity),
+        y: Object.values(genreInfo).map(info => info.totalPopularity / maxPopularity), // Normalize the popularity
         mode: 'markers',
         marker: {
             size: Object.values(genreInfo).map(info => info.count),
             sizemode: 'area',
-            sizeref: 0.1,
-            color: Object.values(genreInfo).map(info => info.totalPopularity),
+            sizeref: 2 * Math.max(...Object.values(genreInfo).map(info => info.count)) / (40**2), // Adjust sizeref for better scaling
+            color: Object.values(genreInfo).map(info => info.totalPopularity / maxPopularity),
             colorscale: 'Portland'
         },
         text: Object.keys(genreInfo)
     }];
 
     const layout = {
-        title: 'Total Popularity by Genre',
+        title: 'Normalized Total Popularity by Genre',
         xaxis: { title: 'Genre' },
-        yaxis: { title: 'Total Popularity' },
+        yaxis: { title: 'Normalized Popularity', range: [0, 1] },
         margin: { t: 30, l: 100, r: 30, b: 150 }
     };
 
     Plotly.newPlot('popularityByGenre', data, layout);
 }
+
 
 // Draw Radar Chart for average attributes by genre
 function drawAttributeRadarChart(genreInfo) {
