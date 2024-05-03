@@ -55,10 +55,10 @@ function drawBarPlot(data) {
         .attr("fill", "#69b3a2")
         .on("mouseover", function(event, d) {
             console.log(d);  // Log the data for the hovered element
-            tooltip.html(`Track: ${data.track_name}<br>Artist: ${data.artist_name}<br>Release Date: ${data.album_release_date}<br>Popularity: ${data.popularity}`)
+            tooltip.html(`Track: ${d.track_name}<br>Artist: ${d.artist_name}<br>Release Date: ${d.album_release_date}<br>Popularity: ${d.popularity}`)
            .style("opacity", 1)
-           .style("left", (event.pageX + 10) + "px")
-           .style("top", (event.pageY - 10) + "px");
+           .style("left", (event.pageX + 30) + "px")
+           .style("top", (event.pageY + 30) + "px");
 })
 
         .on("mouseout", function(d) {
