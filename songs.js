@@ -42,13 +42,13 @@ function drawRadialPlot(data) {
     var trace = {
         type: 'scatterpolar',
         r: [
-            data.danceability,
-            data.valence,
-            data.energy,
-            data.acousticness,
-            data.instrumentalness,
-            data.liveness,
-            data.speechiness
+            data.map(d => d.danceability),
+            data.map(d => d.valence),
+            data.map(d => d.energy),
+            data.map(d => d.acousticness),
+            data.map(d => d.instrumentalness),
+            data.map(d => d.liveness),
+            data.map(d => d.speechiness)
         ],
         theta: [
             'Danceability',
