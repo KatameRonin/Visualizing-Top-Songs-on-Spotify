@@ -15,7 +15,24 @@
             max-width: 50%; /* Adjust this value to change the image size */
             height: auto; /* Keeps the aspect ratio of the image */
         }
-         /* Adjust as necessary for your design */
+    </style>
+    <style>
+        .text-center {
+            text-align: center;
+        }
+
+        #plot {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        select {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
@@ -39,13 +56,15 @@
         <h1 class="display-3 font-weight-bold">Songs Dashboard</h1>
         <p class="lead text-white">Explore the songs from the list of Spotify's top 50 songs of 2023!</p>
     </section>
-    <h2 class="text-center"> Popularity of Tracks by Artist </h2>
+
+    
+    <h2 class="text-center">Popularity of Tracks by Artist</h2>
     <div>
         <select id="artistSelector"></select>
     </div>
     <div id="plot"></div>
 
-    <h3 class="text-center">Song Distribution by Artists</h3>
+    <h2 class="text-center">Song Distribution by Artists</h2>
     <div id="dropdownContainer">
         <select id="genreSelector">
             <option>Choose a genre</option>
@@ -53,7 +72,7 @@
     </div>
     <div id="pieChartContainer"></div>
 
-    <h3 class="text-center">Does Collaboration Help?</h3>
+    <h2 class="text-center">Does Collaboration Help?</h2>
     <div id="barChartContainer"></div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
