@@ -52,7 +52,7 @@ function drawBarPlot(data) {
         .attr("height", d => height - y(d.popularity))
         .attr("fill", "#69b3a2")
         .on("mouseover", function(event, d) {
-            tooltip.html(`Track: ${track_name}<br>Artist: ${d.artist_name}<br>Release Date: ${d.album_release_date}<br>Popularity: ${d.popularity}`)
+            tooltip.html(`Track: ${d.track_name}<br>Artist: ${d.artist_name}<br>Release Date: ${d.album_release_date}<br>Popularity: ${d.popularity}`)
                    .style("opacity", 1)
                    // Positioning tooltip near the hovered bar
                    .style("left", (x(d.track_name) + margin.left + x.bandwidth() / 2) + "px")
