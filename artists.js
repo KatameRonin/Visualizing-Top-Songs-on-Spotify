@@ -60,7 +60,7 @@ function drawPlot(data, selectedArtist) {
         showlegend: false,
         height: 800, // Same height for good visualization
         width: 1400,
-        margin: {t: 30, r: 10, b: 100, l: 120} // Adjust left, right, top, and bottom margins // Increased width for a wider view
+        margin: {t: 30, r: 0, b: 100, l: 120} // Adjust left, right, top, and bottom margins // Increased width for a wider view
     };
 
     Plotly.newPlot('plot', traces, layout);
@@ -87,6 +87,45 @@ function drawArtistDistributionPieChart(data) {
     };
 
     Plotly.newPlot('pieChartContainer', data, layout);
+}
+
+function drawArtistCountVsPopularity(data) {
+    // Calculate the number of songs per artist count
+    let countMap = {};
+    data.forEach(track => {
+        let artistCount = track.artist_count;
+        if (countMap[artistCount]) {
+            countMap[artistCount].push(track.popularity);
+        } else {
+            countMap[artistCount] = [track.popularity];
+        }
+    });
+
+    // Prepare data for the bar chart
+    var trace = {
+        x: Object.keys(countMap),
+        y: Object.values(countMap).map(val => val.length),
+        type: 'bar',
+        marker: {
+            color: 'blue' // You can choose any color
+        },
+        text: Object.values(countMap).map(val => val.length),
+        textposition: 'auto',
+    };
+
+    var layout = {
+        title: 'Number of Songs by Artist Count in Popularity List',
+        xaxis: {
+            title: 'Artist Count',
+            type: 'category'
+        },
+        yaxis: {
+            title: 'Number of Songs'
+        },
+        bargap: 0.1
+    };
+
+    Plotly.newPlot('barChartContainer', trace, layout);
 }
 
 // Load data and setup
