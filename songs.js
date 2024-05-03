@@ -38,10 +38,12 @@ function drawBarPlot(data) {
       .style("opacity", 0)
       .style("background", 'lightgray')
       .style("padding", '5px')
-      .style("position", 'relative')
+      .style("position", 'absolute')
       .style("border-radius", '5px');
 
     // Bars
+
+
     svg.selectAll("mybar")
       .data(data)
       .enter()
