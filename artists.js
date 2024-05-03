@@ -48,7 +48,14 @@ function drawPlot(data, selectedArtist) {
     });
 
     var layout = {
-        xaxis: {title: 'Track Name'},
+        xaxis: {
+            title: 'Track Name',
+            tickangle: -45,
+            automargin: true,
+            tickfont: {
+                size: 12 // Adjust font size if necessary
+            }
+        },
         yaxis: {title: 'Popularity'},
         showlegend: false,
         height: 800, // Increased height for better visualization
