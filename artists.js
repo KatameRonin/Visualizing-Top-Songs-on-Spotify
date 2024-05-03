@@ -58,9 +58,10 @@ function drawPlot(data, selectedArtist) {
         },
         yaxis: {title: 'Popularity'},
         showlegend: false,
+        margin: {t: 30, r: 30, b: 100, l: 100},
         height: 800, // Same height for good visualization
-        width: 1400,
-        margin: {t: 30, r: 0, b: 100, l: 120} // Adjust left, right, top, and bottom margins // Increased width for a wider view
+        width: 1400
+         // Adjust left, right, top, and bottom margins // Increased width for a wider view
     };
 
     Plotly.newPlot('plot', traces, layout);
@@ -82,6 +83,7 @@ function drawArtistDistributionPieChart(data) {
     }];
 
     var layout = {
+        margin: {t: 30, r: 30, b: 100, l: 100},
         height: 400,
         width: 400
     };
