@@ -60,7 +60,7 @@ function drawPlot(data, selectedArtist) {
         showlegend: false,
         height: 800, // Same height for good visualization
         width: 1400,
-        margin: {t: 30, r: 30, b: 100, l: 100} // Adjust left, right, top, and bottom margins // Increased width for a wider view
+        margin: {t: 30, r: 10, b: 100, l: 120} // Adjust left, right, top, and bottom margins // Increased width for a wider view
     };
 
     Plotly.newPlot('plot', traces, layout);
