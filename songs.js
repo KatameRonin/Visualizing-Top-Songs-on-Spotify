@@ -12,13 +12,19 @@ function drawBarPlotWithPlotly(data) {
         title: 'Track Popularity',
         xaxis: {
             title: 'Track Name',
-            tickangle: -45
+            tickangle: -45,
+            automargin: true
         },
         yaxis: {
-            title: 'Popularity'
+            title: 'Popularity',
+            type: 'linear', // Change to 'log' if needed: type: 'log'
+            automargin: true
         },
         margin: {t: 30, r: 30, b: 100, l: 100},
-        hovermode: 'closest'
+        hovermode: 'closest',
+        bargap: 0.1, // Increase the gap between bars if needed
+        width: 1200, // Increased width
+        height: 600 // Increased height
     };
 
     Plotly.newPlot('visualization', [trace], layout);
