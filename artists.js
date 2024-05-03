@@ -65,7 +65,32 @@ function drawPlot(data, selectedArtist) {
     Plotly.newPlot('plot', traces, layout);
 }
 
+// Function to draw a pie chart for song distribution across artists
+function drawArtistDistributionPieChart(data) {
+    let artistCounts = data.reduce((acc, track) => {
+        acc[track.artist_name] = (acc[track.artist_name] || 0) + 1;
+        return acc;
+    }, {});
+
+    var data = [{
+        labels: Object.keys(artistCounts),
+        values: Object.values(artistCounts),
+        type: 'pie',
+        textinfo: 'label+percent',
+        insidetextorientation: 'radial'
+    }];
+
+    var layout = {
+        title: 'Song Distribution Across Artists',
+        height: 400,
+        width: 400
+    };
+
+    Plotly.newPlot('pieChartContainer', [data], layout);
+}
+
 // Load data and setup
 d3.json("data/Spotify.json").then(function(data) {
     initializePlot(data);
+    drawArtistDistributionPieChart(data);
 });
