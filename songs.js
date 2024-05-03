@@ -54,12 +54,13 @@ function drawBarPlot(data) {
         .attr("height", d => height - y(d.popularity))
         .attr("fill", "#69b3a2")
         .on("mouseover", function(event, d) {
-            tooltip.html(`Track: ${d.data.track_name}<br>Artist: ${d.artist_name}<br>Release Date: ${d.album_release_date}<br>Popularity: ${d.popularity}`)
-                   .style("opacity", 1)
-                   // Positioning tooltip near the hovered bar
-                   .style("left", (x(d.track_name) + margin.left + x.bandwidth() / 2) + "px")
-                   .style("top", (y(d.popularity) + margin.top - 10) + "px");
-        })
+            console.log(d);  // Log the data for the hovered element
+            tooltip.html(`Track: ${d.track_name}<br>Artist: ${d.artist_name}<br>Release Date: ${d.album_release_date}<br>Popularity: ${d.popularity}`)
+           .style("opacity", 1)
+           .style("left", (event.pageX + 10) + "px")
+           .style("top", (event.pageY - 10) + "px");
+})
+
         .on("mouseout", function(d) {
             tooltip.style("opacity", 0);
         });
@@ -67,7 +68,6 @@ function drawBarPlot(data) {
 
 // Load data and use it
 d3.json("data/Spotify.json").then(function(data) {
-    console.log(data);
     // Call the function to draw the bar plot
     drawBarPlot(data);
 });
