@@ -3,7 +3,7 @@ function drawBarPlot(data) {
     // Increase dimensions and margins of the plot for better visibility
     const margin = {top: 30, right: 30, bottom: 100, left: 100},
         width = 1160 - margin.left - margin.right,  // Increased width
-        height = 800 - margin.top - margin.bottom;  // Increased height
+        height = 500 - margin.top - margin.bottom;  // Increased height
 
     // Append the SVG object to the body of the page
     const svg = d3.select("#visualization")
@@ -62,8 +62,13 @@ function drawBarPlot(data) {
         });
 }
 
+function drawRadial(data) {
+
+}
+
 // Load data and use it
 d3.json("data/Spotify.json").then(function(data) {
     // Call the function to draw the bar plot
     drawBarPlot(data);
+
 });
