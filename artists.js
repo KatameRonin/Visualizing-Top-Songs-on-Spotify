@@ -51,7 +51,7 @@ function drawPlot(data, selectedArtist) {
         xaxis: {title: 'Track Name'},
         yaxis: {title: 'Popularity'},
         showlegend: false,
-        height: 800, // Increased height for better visualization
+        height: 1000, // Increased height for better visualization
         width: 1200
     };
 
