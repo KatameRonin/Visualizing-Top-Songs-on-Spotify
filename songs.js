@@ -33,11 +33,51 @@ function drawBarPlotWithPlotly(data) {
         height: 600 // Increased height
     };
 
-    Plotly.newPlot('visualization', [trace], layout);
+    Plotly.newPlot('top50', [trace], layout);
+}
+
+// Function to draw a radial plot using Plotly
+function drawRadialPlot(data) {
+    // Prepare the data for the radial plot
+    var trace = {
+        type: 'scatterpolar',
+        r: [
+            data.danceability,
+            data.valence,
+            data.energy,
+            data.acousticness,
+            data.instrumentalness,
+            data.liveness,
+            data.speechiness
+        ],
+        theta: [
+            'Danceability',
+            'Valence',
+            'Energy',
+            'Acousticness',
+            'Instrumentalness',
+            'Liveness',
+            'Speechiness'
+        ],
+        fill: 'toself',
+        name: 'Track Attributes'
+    };
+
+    var layout = {
+        polar: {
+            radialaxis: {
+                visible: true,
+                range: [0, 1] // Adjust the range based on your data or keep it [0, 1] for normalized data
+            }
+        },
+    };
+
+    Plotly.newPlot('disbn', [trace], layout);
 }
 
 // Load data and use it
 d3.json("data/Spotify.json").then(function(data) {
     // Call the function to draw the bar plot using Plotly
     drawBarPlotWithPlotly(data);
+    drawRadialPlot(data);
 });
