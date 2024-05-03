@@ -58,8 +58,8 @@ function drawPlot(data, selectedArtist) {
         },
         yaxis: {title: 'Popularity'},
         showlegend: false,
-        height: 800, // Increased height for better visualization
-        width: 1200
+        height: 600, // Increased height for better visualization
+        width: 1000
     };
 
     Plotly.newPlot('plot', traces, layout);
