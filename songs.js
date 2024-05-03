@@ -38,7 +38,7 @@ function drawBarPlot(data) {
       .style("opacity", 0)
       .style("background", 'lightgray')
       .style("padding", '5px')
-      .style("position", 'absolute')
+      .style("position", 'relative')
       .style("border-radius", '5px');
 
     // Bars
