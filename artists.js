@@ -67,28 +67,49 @@ function drawPlot(data, selectedArtist) {
     Plotly.newPlot('plot', traces, layout);
 }
 
-// Function to draw a pie chart for song distribution across artists
-function drawArtistDistributionPieChart(data) {
-    let artistCounts = data.reduce((acc, track) => {
-        acc[track.artist_name] = (acc[track.artist_name] || 0) + 1;
+// Function to populate the dropdown with genres and set up the event listener
+function initializeDropdown(data) {
+    const genres = [...new Set(data.map(item => item.genre))];
+    const select = document.getElementById('genreSelector');
+    genres.forEach(genre => {
+        const option = new Option(genre, genre);
+        select.add(option);
+    });
+
+    // Handle dropdown change
+    select.onchange = function() {
+        const selectedGenre = this.value;
+        if (selectedGenre === "Choose a genre") {
+            Plotly.newPlot('pieChartContainer', []); // Clear the pie chart
+        } else {
+            updatePieChart(data, selectedGenre);
+        }
+    };
+}
+
+// Function to update the pie chart based on the selected genre
+function updatePieChart(data, genre) {
+    const filteredData = data.filter(item => item.genre === genre);
+    const artistCounts = filteredData.reduce((acc, item) => {
+        acc[item.artist_name] = (acc[item.artist_name] || 0) + 1;
         return acc;
     }, {});
 
-    var data = [{
+    var trace = {
         labels: Object.keys(artistCounts),
         values: Object.values(artistCounts),
         type: 'pie',
         textinfo: 'label+percent',
         insidetextorientation: 'radial'
-    }];
+    };
 
     var layout = {
-        margin: {t: 30, r: 30, b: 100, l: 100},
+        title: `Song Distribution for ${genre}`,
         height: 400,
         width: 400
     };
 
-    Plotly.newPlot('pieChartContainer', data, layout);
+    Plotly.newPlot('pieChartContainer', trace, layout);
 }
 
 function drawArtistCountVsPopularity(data) {
@@ -133,5 +154,6 @@ function drawArtistCountVsPopularity(data) {
 // Load data and setup
 d3.json("data/Spotify.json").then(function(data) {
     initializePlot(data);
+    initializeDropdown(data);
     drawArtistDistributionPieChart(data);
 });
