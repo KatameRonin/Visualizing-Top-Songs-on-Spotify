@@ -3,6 +3,11 @@ function preprocessData(data) {
     let genreInfo = {};
 
     data.forEach(song => {
+        // Convert the genres string to an array if it's not already one
+        if (typeof song.genres === 'string') {
+            song.genres = JSON.parse(song.genres.replace(/'/g, '"'));  // Replacing single quotes with double quotes for valid JSON
+        }
+
         song.genres.forEach(genre => {
             if (!genreInfo[genre]) {
                 genreInfo[genre] = {
@@ -23,7 +28,7 @@ function preprocessData(data) {
         });
     });
 
-    // Calculate averages
+    // Calculate averages for attributes
     Object.keys(genreInfo).forEach(genre => {
         const attr = genreInfo[genre].attributes;
         const count = genreInfo[genre].count;
@@ -34,6 +39,7 @@ function preprocessData(data) {
 
     return genreInfo;
 }
+
 
 // Draw Bar Chart for number of songs per genre
 function drawSongsPerGenreChart(genreInfo) {
