@@ -1,85 +1,117 @@
-// Simulated data loading function - replace with actual data loading logic
-d3.json('data/Spotify.json').then(function(data) {
-    let genreCounts = {};
-    let genrePopularity = {};
-    let genreAttributes = {};
+// Function to preprocess and aggregate data by genre
+function preprocessData(data) {
+    let genreInfo = {};
 
-    data.forEach(d => {
-        d.genres.forEach(genre => {
-            genreCounts[genre] = (genreCounts[genre] || 0) + 1;
-            genrePopularity[genre] = (genrePopularity[genre] || 0) + d.popularity;
-            if (!genreAttributes[genre]) {
-                genreAttributes[genre] = { danceability: 0, energy: 0, count: 0 };
+    data.forEach(song => {
+        song.genres.forEach(genre => {
+            if (!genreInfo[genre]) {
+                genreInfo[genre] = {
+                    count: 0,
+                    totalPopularity: 0,
+                    attributes: {
+                        danceability: 0,
+                        energy: 0,
+                        valence: 0
+                    }
+                };
             }
-            genreAttributes[genre].danceability += d.danceability;
-            genreAttributes[genre].energy += d.energy;
-            genreAttributes[genre].count++;
+            genreInfo[genre].count++;
+            genreInfo[genre].totalPopularity += song.popularity;
+            genreInfo[genre].attributes.danceability += song.danceability;
+            genreInfo[genre].attributes.energy += song.energy;
+            genreInfo[genre].attributes.valence += song.valence;
         });
     });
 
-    Object.keys(genrePopularity).forEach(key => {
-        genrePopularity[key] /= genreCounts[key];
-        genreAttributes[key].danceability /= genreAttributes[key].count;
-        genreAttributes[key].energy /= genreAttributes[key].count;
+    // Calculate averages
+    Object.keys(genreInfo).forEach(genre => {
+        const attr = genreInfo[genre].attributes;
+        const count = genreInfo[genre].count;
+        attr.danceability /= count;
+        attr.energy /= count;
+        attr.valence /= count;
     });
 
-    createPieChart(genreCounts);
-    createBarChart(genrePopularity);
-    createBubbleChart(genreAttributes);
-});
-
-function createPieChart(data) {
-    var data = [{
-        values: Object.values(data),
-        labels: Object.keys(data),
-        type: 'pie'
-    }];
-
-    var layout = {
-        height: 400,
-        width: 500,
-        title: 'Distribution of Songs by Genre'
-    };
-
-    Plotly.newPlot('genrePieChart', data, layout);
+    return genreInfo;
 }
 
-function createBarChart(data) {
-    var data = [{
-        x: Object.keys(data),
-        y: Object.values(data),
-        type: 'bar'
+// Draw Bar Chart for number of songs per genre
+function drawSongsPerGenreChart(genreInfo) {
+    const data = [{
+        x: Object.keys(genreInfo),
+        y: Object.values(genreInfo).map(info => info.count),
+        type: 'bar',
+        marker: { color: 'rgba(50, 171, 96, 0.7)' }
     }];
 
-    var layout = {
-        title: 'Average Popularity by Genre',
+    const layout = {
+        title: 'Number of Songs per Genre',
         xaxis: { title: 'Genre' },
-        yaxis: { title: 'Average Popularity' }
+        yaxis: { title: 'Number of Songs' },
+        margin: { t: 30, l: 150, r: 30, b: 150 },
+        automargin: true
     };
 
-    Plotly.newPlot('genreBarChart', data, layout);
+    Plotly.newPlot('songsPerGenre', data, layout);
 }
 
-function createBubbleChart(data) {
-    var trace = {
-        x: Object.values(data).map(d => d.danceability),
-        y: Object.values(data).map(d => d.energy),
-        text: Object.keys(data),
+// Draw Bubble Chart for total popularity by genre
+function drawPopularityByGenreChart(genreInfo) {
+    const data = [{
+        x: Object.keys(genreInfo),
+        y: Object.values(genreInfo).map(info => info.totalPopularity),
         mode: 'markers',
         marker: {
-            size: Object.values(data).map(d => d.count),
+            size: Object.values(genreInfo).map(info => info.count),
             sizemode: 'area',
-            sizeref: 2 * Math.max(...Object.values(data).map(d => d.count)) / (40**2),
-            color: Object.values(data).map(d => d.energy)
-        }
+            sizeref: 0.1,
+            color: Object.values(genreInfo).map(info => info.totalPopularity),
+            colorscale: 'Portland'
+        },
+        text: Object.keys(genreInfo)
+    }];
+
+    const layout = {
+        title: 'Total Popularity by Genre',
+        xaxis: { title: 'Genre' },
+        yaxis: { title: 'Total Popularity' },
+        margin: { t: 30, l: 100, r: 30, b: 150 }
     };
 
-    var layout = {
-        title: 'Genres by Danceability and Energy',
-        xaxis: { title: 'Danceability' },
-        yaxis: { title: 'Energy' },
-        showlegend: false
-    };
-
-    Plotly.newPlot('genreBubbleChart', [trace], layout);
+    Plotly.newPlot('popularityByGenre', data, layout);
 }
+
+// Draw Radar Chart for average attributes by genre
+function drawAttributeRadarChart(genreInfo) {
+    const data = Object.keys(genreInfo).map(genre => ({
+        type: 'scatterpolar',
+        name: genre,
+        r: [
+            genreInfo[genre].attributes.danceability,
+            genreInfo[genre].attributes.energy,
+            genreInfo[genre].attributes.valence
+        ],
+        theta: ['Danceability', 'Energy', 'Valence'],
+        fill: 'toself'
+    }));
+
+    const layout = {
+        polar: {
+            radialaxis: {
+                visible: true,
+                range: [0, 1]
+            }
+        },
+        title: 'Average Attributes by Genre'
+    };
+
+    Plotly.newPlot('attributeByGenre', data, layout);
+}
+
+// Load data and generate visualizations
+d3.json('data/Spotify.json').then(data => {
+    const genreInfo = preprocessData(data);
+    drawSongsPerGenreChart(genreInfo);
+    drawPopularityByGenreChart(genreInfo);
+    drawAttributeRadarChart(genreInfo);
+});
