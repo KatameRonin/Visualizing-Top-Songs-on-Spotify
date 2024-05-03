@@ -7,6 +7,15 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <title>Songs Dashboard</title>
+    <style>
+        /* Centering and resizing the image inside the jumbotron */
+        .jumbotron img {
+            display: block;
+            margin: 0 auto;
+            max-width: 50%; /* Adjust this value to change the image size */
+            height: auto; /* Keeps the aspect ratio of the image */
+        }
+    </style>
 </head>
 <body class="bg-light">
     <!-- Navigation Tabs -->
@@ -24,6 +33,7 @@
 
     <!-- Jumbotron header -->
     <section id="header" class="jumbotron text-center bg-info">
+        <img src="images/spotify.png" alt="Top Songs Image" style="max-width: 150px; height: auto; width: 100%; margin: 0 auto;"> <!-- Add your image URL here -->
         <h1 class="display-3 font-weight-bold">Songs Dashboard</h1>
         <p class="lead text-white">Explore the songs from the list of Spotify's top 50 songs of 2023!</p>
     </section>
