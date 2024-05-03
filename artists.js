@@ -49,7 +49,6 @@ function drawPlot(data, selectedArtist) {
 
     var layout = {
         xaxis: {
-            title: 'Track Name',
             tickangle: -45,
             automargin: true,
             tickfont: {
@@ -67,49 +66,45 @@ function drawPlot(data, selectedArtist) {
     Plotly.newPlot('plot', traces, layout);
 }
 
-// Function to populate the dropdown with genres and set up the event listener
-function initializeDropdown(data) {
-    const genres = [...new Set(data.map(item => item.genre))];
+function initializeDropdown(genreList) {
     const select = document.getElementById('genreSelector');
-    genres.forEach(genre => {
-        const option = new Option(genre, genre);
-        select.add(option);
+    genreList.forEach(genre => {
+        const option = document.createElement('option');
+        option.value = genre;
+        option.textContent = genre;
+        select.appendChild(option);
     });
 
-    // Handle dropdown change
-    select.onchange = function() {
-        const selectedGenre = this.value;
-        if (selectedGenre === "Choose a genre") {
-            Plotly.newPlot('pieChartContainer', []); // Clear the pie chart
+    // Event listener for dropdown changes
+    select.addEventListener('change', function() {
+        if (this.value === "Choose a genre") {
+            Plotly.newPlot('pieChartContainer', []); // Clear the plot
         } else {
-            updatePieChart(data, selectedGenre);
+            updatePieChart(this.value);
         }
-    };
+    });
 }
 
-// Function to update the pie chart based on the selected genre
-function updatePieChart(data, genre) {
-    const filteredData = data.filter(item => item.genre === genre);
-    const artistCounts = filteredData.reduce((acc, item) => {
+function updatePieChart(genre) {
+    const filteredData = data.filter(item => item.genres.includes(genre));
+    const counts = filteredData.reduce((acc, item) => {
         acc[item.artist_name] = (acc[item.artist_name] || 0) + 1;
         return acc;
     }, {});
 
-    var trace = {
-        labels: Object.keys(artistCounts),
-        values: Object.values(artistCounts),
-        type: 'pie',
-        textinfo: 'label+percent',
-        insidetextorientation: 'radial'
-    };
+    const pieData = [{
+        values: Object.values(counts),
+        labels: Object.keys(counts),
+        type: 'pie'
+    }];
 
-    var layout = {
-        title: `Song Distribution for ${genre}`,
+    const layout = {
+        title: `${genre} Genre Distribution`,
         height: 400,
-        width: 400
+        width: 500
     };
 
-    Plotly.newPlot('pieChartContainer', trace, layout);
+    Plotly.newPlot('pieChartContainer', pieData, layout);
 }
 
 function drawArtistCountVsPopularity(data) {
@@ -155,5 +150,5 @@ function drawArtistCountVsPopularity(data) {
 d3.json("data/Spotify.json").then(function(data) {
     initializePlot(data);
     initializeDropdown(data);
-    drawArtistDistributionPieChart(data);
+    drawArtistCountVsPopularity(data);
 });
