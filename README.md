@@ -3,6 +3,7 @@
 **Webpage: ** [Spotify Soundscape: Visualizing the top 50 Songs of 2023](https://katameronin.github.io/Visualizing-Top-Songs-on-Spotify/)
 
 ---
+![](https://github.com/KatameRonin/Visualizing-Top-Songs-on-Spotify/blob/main/images/spotify.png)
 # Visualizing the Spotify Soundscape
 
 In this assignment, we build an interactive dashboard to explore the [Spotify Top 50 Tracks 2023](https://www.kaggle.com/datasets/yukawithdata/spotify-top-tracks-2023/), which lists the top 50 songs based on their popularity on Spotify.
