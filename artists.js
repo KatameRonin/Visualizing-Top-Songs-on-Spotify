@@ -42,7 +42,7 @@ function drawPlot(data, selectedArtist) {
             mode: 'markers',
             marker: {
                 color: d.artist_name === selectedArtist ? 'red' : 'blue',
-                size: d.artist_name === selectedArtist ? 12 : 6
+                size: d.artist_name === selectedArtist ? 16 : 6
             }
         });
     });
@@ -50,7 +50,9 @@ function drawPlot(data, selectedArtist) {
     var layout = {
         xaxis: {title: 'Track Name'},
         yaxis: {title: 'Popularity'},
-        showlegend: false
+        showlegend: false,
+        height: 800, // Increased height for better visualization
+        width: 1200
     };
 
     Plotly.newPlot('plot', traces, layout);
