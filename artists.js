@@ -66,47 +66,6 @@ function drawPlot(data, selectedArtist) {
     Plotly.newPlot('plot', traces, layout);
 }
 
-function initializeDropdown(genreList) {
-    const select = document.getElementById('genreSelector');
-    genreList.forEach(genre => {
-        const option = document.createElement('option');
-        option.value = genre;
-        option.textContent = genre;
-        select.appendChild(option);
-    });
-
-    // Event listener for dropdown changes
-    select.addEventListener('change', function() {
-        if (this.value === "Choose a genre") {
-            Plotly.newPlot('pieChartContainer', []); // Clear the plot
-        } else {
-            updatePieChart(this.value);
-        }
-    });
-}
-
-function updatePieChart(genre) {
-    const filteredData = data.filter(item => item.genres.includes(genre));
-    const counts = filteredData.reduce((acc, item) => {
-        acc[item.artist_name] = (acc[item.artist_name] || 0) + 1;
-        return acc;
-    }, {});
-
-    const pieData = [{
-        values: Object.values(counts),
-        labels: Object.keys(counts),
-        type: 'pie'
-    }];
-
-    const layout = {
-        title: `${genre} Genre Distribution`,
-        height: 400,
-        width: 500
-    };
-
-    Plotly.newPlot('pieChartContainer', pieData, layout);
-}
-
 function drawArtistCountVsPopularity(data) {
     // Create a map to store total popularity and count of tracks for each artist count
     let popularityMap = {};
@@ -170,6 +129,5 @@ function drawArtistCountVsPopularity(data) {
 // Load data and setup
 d3.json("data/Spotify.json").then(function(data) {
     initializePlot(data);
-    initializeDropdown(data);
     drawArtistCountVsPopularity(data);
 });
