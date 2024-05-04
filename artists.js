@@ -122,7 +122,7 @@ function drawArtistCountVsPopularity(data) {
     };
 
     // Render the plot
-    Plotly.newPlot('plotDiv', [trace], layout);
+    Plotly.newPlot('barChartContainer', [trace], layout);
 }
 
 
