@@ -140,10 +140,11 @@ function drawArtistCountVsPopularity(data) {
         yaxis: {
             title: 'Number of Songs'
         },
-        bargap: 0.1
+        bargap: 0.1,
+        margin: {t: 30, r: 30, b: 100, l: 100},
     };
 
-    Plotly.newPlot('barChartContainer', trace, layout);
+    Plotly.newPlot('barChartContainer', [trace], layout);
 }
 
 // Load data and setup
