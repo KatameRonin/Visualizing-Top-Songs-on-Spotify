@@ -4,7 +4,7 @@ function drawBarPlotWithPlotly(data) {
     const maxPopularity = Math.max(...data.map(d => d.popularity));
     const colors = data.map(d => {
         const normalizedPopularity = d.popularity / maxPopularity;
-        return `rgba(${255 * normalizedPopularity},${255 * (1 - normalizedPopularity)}, 100, 0.3)`;
+        return `rgba(${255 * normalizedPopularity},${255 * (1 - normalizedPopularity)}, 100, 0.5)`;
     });
 
 
