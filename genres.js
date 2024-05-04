@@ -90,7 +90,7 @@ function drawPopularityByGenreChart(genreInfo) {
                 size: 12 // Adjust font size if necessary
             }
         },
-        yaxis: { title: 'Normalized Popularity per Song' },
+        yaxis: { title: 'Average Popularity per Genre' },
         margin: { t: 30, l: 100, r: 30, b: 150 }
     };
 
