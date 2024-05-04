@@ -24,7 +24,8 @@ function drawBarPlotWithPlotly(data) {
         yaxis: {
             title: 'Popularity',
             type: 'linear', // Change to 'log' if needed: type: 'log'
-            automargin: true
+            automargin: true,
+            dtick: 10
         },
         margin: {t: 30, r: 30, b: 100, l: 100},
         hovermode: 'closest',
