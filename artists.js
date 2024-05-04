@@ -108,44 +108,65 @@ function updatePieChart(genre) {
 }
 
 function drawArtistCountVsPopularity(data) {
-    // Calculate the number of songs per artist count
-    let countMap = {};
+    // Create a map to store total popularity and count of tracks for each artist count
+    let popularityMap = {};
+
+    // Aggregate popularity scores and count of entries for each artist count
     data.forEach(track => {
         let artistCount = track.artist_count;
-        if (countMap[artistCount]) {
-            countMap[artistCount].push(track.popularity);
+        let popularity = track.popularity;
+        if (popularityMap[artistCount]) {
+            popularityMap[artistCount].total += popularity;
+            popularityMap[artistCount].count += 1;
         } else {
-            countMap[artistCount] = [track.popularity];
+            popularityMap[artistCount] = { total: popularity, count: 1 };
         }
     });
 
-    // Prepare data for the bar chart
+    // Calculate the average popularity for each artist count
+    let averages = [];
+    Object.keys(popularityMap).forEach(artistCount => {
+        let avg = popularityMap[artistCount].total / popularityMap[artistCount].count;
+        averages.push({
+            artistCount: artistCount,
+            averagePopularity: avg
+        });
+    });
+
+    // Sort averages by artist count (assuming artist count is numeric)
+    averages.sort((a, b) => a.artistCount - b.artistCount);
+
+    // Prepare the trace for Plotly
     var trace = {
-        x: Object.keys(countMap),
-        y: Object.values(countMap).map(val => val.length),
-        type: 'bar',
+        x: averages.map(item => item.artistCount),
+        y: averages.map(item => item.averagePopularity),
+        type: 'scatter',  // 'bar' for bar chart, 'scatter' for line chart with mode set to 'lines+markers'
+        mode: 'lines+markers', // This line is used if type is 'scatter'
         marker: {
-            color: 'blue' // You can choose any color
+            color: 'rgb(55, 128, 191)',
+            size: 8
         },
-        text: Object.values(countMap).map(val => val.length),
-        textposition: 'auto',
+        line: {
+            color: 'rgb(55, 128, 191)'
+        }
     };
 
     var layout = {
-        title: 'Number of Songs by Artist Count in Popularity List',
+        title: 'Average Popularity vs. Artist Count',
         xaxis: {
             title: 'Artist Count',
-            type: 'category'
+            type: 'category' // Change to 'linear' if artist counts are numeric and a non-categorical display is desired
         },
         yaxis: {
-            title: 'Number of Songs'
+            title: 'Average Popularity'
         },
-        bargap: 0.1,
-        margin: {t: 30, r: 30, b: 100, l: 100},
+        margin: { t: 40, r: 30, b: 50, l: 50 }
     };
 
-    Plotly.newPlot('barChartContainer', [trace], layout);
+    // Render the plot
+    Plotly.newPlot('plotDiv', [trace], layout);
 }
+
 
 // Load data and setup
 d3.json("data/Spotify.json").then(function(data) {
