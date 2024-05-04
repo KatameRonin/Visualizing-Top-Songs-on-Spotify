@@ -51,8 +51,13 @@ function drawSongsPerGenreChart(genreInfo) {
     }];
 
     const layout = {
-        title: 'Number of Songs per Genre',
-        xaxis: { title: 'Genre' },
+        xaxis: {
+            tickangle: -45,
+            automargin: true,
+            tickfont: {
+                size: 12 // Adjust font size if necessary
+            }
+        },
         yaxis: { title: 'Number of Songs' },
         margin: { t: 30, l: 150, r: 30, b: 150 },
         automargin: true
@@ -78,8 +83,13 @@ function drawPopularityByGenreChart(genreInfo) {
     }];
 
     const layout = {
-        title: 'Normalized Total Popularity per Song by Genre',
-        xaxis: { title: 'Genre' },
+        xaxis: {
+            tickangle: -45,
+            automargin: true,
+            tickfont: {
+                size: 12 // Adjust font size if necessary
+            }
+        },
         yaxis: { title: 'Normalized Popularity per Song' },
         margin: { t: 30, l: 100, r: 30, b: 150 }
     };
@@ -109,8 +119,7 @@ function drawAttributeRadarChart(genreInfo) {
                 visible: true,
                 range: [0, 1]
             }
-        },
-        title: 'Average Attributes by Genre'
+        }
     };
 
     Plotly.newPlot('attributeByGenre', data, layout);
