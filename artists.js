@@ -152,7 +152,6 @@ function drawArtistCountVsPopularity(data) {
     };
 
     var layout = {
-        title: 'Average Popularity vs. Artist Count',
         xaxis: {
             title: 'Artist Count',
             type: 'category' // Change to 'linear' if artist counts are numeric and a non-categorical display is desired
