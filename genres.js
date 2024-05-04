@@ -63,32 +63,30 @@ function drawSongsPerGenreChart(genreInfo) {
 
 // Draw Bubble Chart for normalized total popularity by genre
 function drawPopularityByGenreChart(genreInfo) {
-    // Compute max popularity to use for normalization
-    const maxPopularity = Math.max(...Object.values(genreInfo).map(info => info.totalPopularity));
-
     const data = [{
         x: Object.keys(genreInfo),
-        y: Object.values(genreInfo).map(info => info.totalPopularity / maxPopularity), // Normalize the popularity
+        y: Object.values(genreInfo).map(info => info.totalPopularity / info.count), // Normalize popularity per song
         mode: 'markers',
         marker: {
             size: Object.values(genreInfo).map(info => info.count),
             sizemode: 'area',
-            sizeref: 2 * Math.max(...Object.values(genreInfo).map(info => info.count)) / (40**2), // Adjust sizeref for better scaling
-            color: Object.values(genreInfo).map(info => info.totalPopularity / maxPopularity),
+            sizeref: 2 * Math.max(...Object.values(genreInfo).map(info => info.count)) / (40**2),
+            color: Object.values(genreInfo).map(info => info.totalPopularity / info.count),
             colorscale: 'Portland'
         },
-        text: Object.keys(genreInfo)
+        text: Object.keys(genreInfo).map(genre => `Avg popularity per song in ${genre}: ${(genreInfo[genre].totalPopularity / genreInfo[genre].count).toFixed(2)}`)
     }];
 
     const layout = {
-        title: 'Normalized Total Popularity by Genre',
+        title: 'Normalized Total Popularity per Song by Genre',
         xaxis: { title: 'Genre' },
-        yaxis: { title: 'Normalized Popularity', range: [0, 1] },
+        yaxis: { title: 'Normalized Popularity per Song' },
         margin: { t: 30, l: 100, r: 30, b: 150 }
     };
 
     Plotly.newPlot('popularityByGenre', data, layout);
 }
+
 
 
 // Draw Radar Chart for average attributes by genre
